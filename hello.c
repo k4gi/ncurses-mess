@@ -32,9 +32,21 @@ int main() {
             break;
     } //ok cool it works
 
-    char list[10][20];
+    char list[10][20]; //array of..arrays..of characters...yep that's how it works
     strcpy(list[0], "listtop");
-    printw("This is string: %s\n", list[0]);
+    printw("This is string: %s\n", list[0]); //oh cool this works too
+
+    printw("i'm going to take some string input now, give me three words please\n");
+    char input[20]; //input is 20 characters right? so why can i type more in than that? ahh some dark magic i suppose
+    scanw("%s", &input); //reminder that scanw only reads until a space
+    strcpy(list[1], input);
+    printw("List 1:%s\n", list[1]); //ok this works too
+    scanw("%s", &input);
+    strcpy(list[2], input);
+    printw("List 2:%s\n", list[2]);
+    scanw("%s", &input);
+    strcpy(list[3], input);
+    printw("List 3:%s\n", list[3]);
 
 	
 	getch(); //pls let me see what happened
