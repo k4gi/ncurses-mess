@@ -5,6 +5,13 @@
 int main() {
 
 	initscr();
+    
+    move(10,10);
+    addch('a');
+    addch('b');
+    addch('c');
+    
+    move(0,0);
 	printw("This is a story about how!\n");
 	printw("I got better at programming\n");
 	printw("Because I refused to let my self-doubt define me anymore\n");
