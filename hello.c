@@ -1,6 +1,11 @@
+//oh yeah so I'm following this tutorial that was last updated in 2005
+//haven't found anything newer that makes any sense so oh well
+//url here: http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/index.html
 
 #include <ncurses.h>
 #include <string.h>
+
+void test_one();
 
 int main() {
 
@@ -10,7 +15,36 @@ int main() {
     addch('a');
     addch('b');
     addch('c');
+
+    move(20,10);
+    printw("Here lies one generic string");
+
+    WINDOW *window_one;
+    window_one = newwin(10,20,0,0); //height, width, starty, startx
+    box(window_one, 1, 2); //idk even what this is it doesn't seem do be doing anything
+    wrefresh(window_one);
+
+    move(5,5);
+    int minx;
+    int miny;
+    int maxx;
+    int maxy;
+    getbegyx(window_one, miny, minx);
+    getmaxyx(window_one, maxy, maxx);
+
+    printw("%d,%d,%d,%d", miny, minx, maxy, maxx);
+    //but how do you get dimensions of the whole screen tho?
+    delwin(window_one);
     
+    
+    //test_one();
+	
+	getch(); //pls let me see what happened
+	endwin(); // Restore normal terminal behavior
+	return 0;
+}
+
+void test_one() {
     move(0,0);
 	printw("This is a story about how!\n");
 	printw("I got better at programming\n");
@@ -54,9 +88,4 @@ int main() {
     scanw("%s", &input);
     strcpy(list[3], input);
     printw("List 3:%s\n", list[3]);
-
-	
-	getch(); //pls let me see what happened
-	endwin(); // Restore normal terminal behavior
-	return 0;
 }
