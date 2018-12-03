@@ -1,1 +1,4 @@
-# ncurses-mess\n\nnothing to see here
+# ncurses-mess
+nothing to see here
+i'm just trying to learn
+
