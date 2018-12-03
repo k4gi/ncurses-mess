@@ -20,7 +20,7 @@ int main() {
     printw("Here lies one generic string");
 
     WINDOW *window_one;
-    window_one = newwin(10,20,0,0); //height, width, starty, startx
+    window_one = newwin(10,20,50,50); //height, width, starty, startx
     //box(window_one, 1, 2); //idk even what this is it doesn't seem do be doing anything
     wborder(window_one, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'); //this isn't doing anything either
     wrefresh(window_one);
@@ -35,6 +35,7 @@ int main() {
 
     printw("%d,%d,%d,%d", miny, minx, maxy, maxx);
     //but how do you get dimensions of the whole screen tho?
+    //getch();
     delwin(window_one);
     
     
