@@ -21,7 +21,8 @@ int main() {
 
     WINDOW *window_one;
     window_one = newwin(10,20,0,0); //height, width, starty, startx
-    box(window_one, 1, 2); //idk even what this is it doesn't seem do be doing anything
+    //box(window_one, 1, 2); //idk even what this is it doesn't seem do be doing anything
+    wborder(window_one, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'); //this isn't doing anything either
     wrefresh(window_one);
 
     move(5,5);
