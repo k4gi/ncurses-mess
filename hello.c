@@ -9,12 +9,23 @@
 
 void test_one();
 void test_two();
+void test_three();
 
 
 int main() {
     initscr();
     
-    int winner = 0;
+    //test_one();
+    //test_two();
+    test_three();
+	
+	getch(); //pls let me see what happened
+	endwin(); // Restore normal terminal behavior
+	return 0;
+}
+
+void test_three() {
+	int winner = 0;
     char in[10];
     do {
         printw("Welcome to hello.c. May I take your order?\n");
@@ -108,7 +119,7 @@ int main() {
 		do {
 			random1 = random() % 100;
 			random2 = random() % 100;
-			printw("What is... %d + %d ???\n", random1, random2);
+			printw("What is... %d + %d ??? It's %d\n", random1, random2, random1+random2);
 			scanw("%d", &sum_in);
 			if(random1 + random2 == sum_in) {
 				winner --;
@@ -120,21 +131,22 @@ int main() {
 		winner = 100;
 		printw("*You shake your head, and your vision stops spinning. The chef is in front of you.\n");
 		printw("What do you do???????\n");
-		printw("Enter 'Punch' or 'Kick' > ");
-		scanw("%s", &in);
+		do {
+			printw("Enter 'Punch' or 'Kick' > ");
+			scanw("%s", &in);
+			if(strcmp(in, "Punch") == 0) {
+				winner = 101;
+			} else if(strcmp(in, "Kick") == 0) {
+				winner = 102;
+			}
+		} while(winner == 100);
+		printw("The chef goes flying! All the staff cheer!!!!!\n");
+		printw("----This is the winning-a-battle end state. Bye.");
 	}
 	
 	if(winner < 85) {
 		printw("----This is the no-conflict end state. Goodbye now.");
 	}
-    
-    
-    //test_one();
-    //test_two();
-	
-	getch(); //pls let me see what happened
-	endwin(); // Restore normal terminal behavior
-	return 0;
 }
 
 void test_two() {
