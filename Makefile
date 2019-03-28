@@ -1,2 +1,2 @@
-make: hello.c
-	gcc hello.c -lncurses
+make: two.c
+	gcc two.c -lncurses
