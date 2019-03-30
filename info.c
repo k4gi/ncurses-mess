@@ -1,5 +1,6 @@
 #include <ncurses.h>
 
+
 int main() {
 	initscr();
 
@@ -10,8 +11,8 @@ int main() {
 	getmaxyx(stdscr, max_y, max_x);
 	//printw("%d %d %d %d %d %d", c_y, c_x, min_y, min_x, max_y, max_x);
 
-	WINDOW *left_win = newwin(5,10,0,0);
-	WINDOW *right_win = newwin(5,10,0,25);
+	WINDOW *left_win = newwin(max_y,max_x/2,0,0);
+	WINDOW *right_win = newwin(max_y,max_x/2,0,max_x/2);
 
 	box(left_win, 0, 0);
 	box(right_win,0,0);
@@ -22,8 +23,8 @@ int main() {
 	int ly,lx,ry,rx;
 	getmaxyx(left_win,ly,lx);
 	getmaxyx(right_win,ry,rx);
-	mvwprintw(left_win,1,1,"%d %d",ly,lx);
-	mvwprintw(right_win,1,1,"%d %d",ry,rx);
+	mvwprintw(left_win,ly-2,1,"%d %d",ly,lx);
+	mvwprintw(right_win,ry-2,1,"%d %d",ry,rx);
 	
 	refresh();
 	wrefresh(left_win);

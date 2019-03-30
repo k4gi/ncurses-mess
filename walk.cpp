@@ -4,7 +4,8 @@
 
 int main() {
 	initscr();
-	noecho();
+	noecho(); //don't talk back to me
+	curs_set(0); //cursor off
 	Character *greg = new Character('g',1,1);
 	WINDOW *win = newwin(10,20,5,10);
 	box(win,0,0);
@@ -13,7 +14,7 @@ int main() {
 	mvwaddch(win,greg->row(),greg->col(),greg->symbol());
 	char input;
 	do {
-		input = wgetch(win);
+		input = wgetch(win); //also refreshes the window
 		mvwaddch(win,greg->row(),greg->col(),'.');
 		switch(input) {
 			case 'w':
