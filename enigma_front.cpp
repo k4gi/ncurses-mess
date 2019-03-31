@@ -86,8 +86,11 @@ int main() {
 	std::string input = ""; //the fabled secret message
 	//navigation variables
 	char in='q';
+	char in2=' '; //oh my i need a second input for the plugboard
 	int sel=0;
 	int sel2=0;
+	//uhh also a 'keyboard' string for showing what's changed with the plugboard
+	std::string keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	//main menu loop
 	do {
 		in = wgetch(helpwin);
@@ -205,6 +208,7 @@ int main() {
 			} while(in != 'd');
 			sel = 0;
 			clearWindow(slotwin);
+			//put code here to show what settings were actually made, for reference
 			wrefresh(slotwin);
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Slot settings done!");
@@ -212,7 +216,37 @@ int main() {
 		case '4':
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Selected: Plugboard settings");
-			mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected(soon)");
+			mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
+			mvwprintw(helpwin,3,1,"Press Enter when you're done");
+			do {
+				clearWindow(plugwin);
+				clearWindow(helpwin);
+				mvwprintw(helpwin,1,1,"Selected: Plugboard settings");
+				mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
+				mvwprintw(helpwin,3,1,"Press Enter when you're done");
+				mvwprintw(plugwin,1,1,"Plugs:");
+				for(int i=0;i<keyboard.length();i++) {
+					if(keyboard[i] != plug[i]) {
+						wprintw(plugwin,"%c<->%c ",keyboard[i],plug[i]);
+					}
+				}
+				in = toupper(wgetch(helpwin));
+				if(keyboard.find(in) != std::string::npos) { //if found
+					//um i gotta make the user give me another char so
+					do {
+						clearWindow(helpwin);
+						mvwprintw(helpwin,1,1,"You entered %c, time for that second letter",in);
+						in2 = toupper(wgetch(helpwin));
+					} while(keyboard.find(in2) == std::string::npos);
+					//todo: string manipulation..yay...make those changes to the plugboard
+					//do we need any error checking here?
+				}
+			} while(in != '\n');
+			clearWindow(plugwin);
+			//code here to show what settings were made, again
+			wrefresh(plugwin);
+			clearWindow(helpwin);
+			mvwprintw(helpwin,1,1,"Plugboard settings done!");
 			break;
 		case '5':
 			clearWindow(helpwin);
