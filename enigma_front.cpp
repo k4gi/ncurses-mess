@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <string>
+#include "list.h"
 
 void clearWindow(WINDOW *win) {
 	int y,x;
@@ -225,11 +226,13 @@ int main() {
 				mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
 				mvwprintw(helpwin,3,1,"Press Enter when you're done");
 				mvwprintw(plugwin,1,1,"Plugs:");
-				for(int i=0;i<keyboard.length();i++) {
-					if(keyboard[i] != plug[i]) {
-						wprintw(plugwin,"%c<->%c ",keyboard[i],plug[i]);
-					}
-				}
+				//for(int i=0;i<keyboard.length();i++) {
+				//	if(keyboard[i] != plug[i]) {
+				//		wprintw(plugwin,"%c<->%c ",keyboard[i],plug[i]);
+				//	}
+				//}
+				//the above loop was going to show plugboard changes but you know what i'm going to use a linked list instead of an array! per ned's suggestion, so i'll need a different loop
+				wrefresh(plugwin);
 				in = toupper(wgetch(helpwin));
 				if(keyboard.find(in) != std::string::npos) { //if found
 					//um i gotta make the user give me another char so
@@ -240,11 +243,12 @@ int main() {
 					} while(keyboard.find(in2) == std::string::npos);
 					//todo: string manipulation..yay...make those changes to the plugboard
 					//do we need any error checking here?
+
 				}
 			} while(in != '\n');
-			clearWindow(plugwin);
-			//code here to show what settings were made, again
-			wrefresh(plugwin);
+			//clearWindow(plugwin);
+			////code here to show what settings were made, again
+			//wrefresh(plugwin);
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Plugboard settings done!");
 			break;
