@@ -31,6 +31,20 @@ void list::remove(char in1,char in2) {
 	}
 }
 
+void list::remove(char in) {
+	node *prev;
+	node *curr = head;
+	while(curr != NULL) {
+		if( curr->data1 == in || curr->data2 == in ) {
+			prev->next = curr->next;
+			curr = NULL;
+		} else {
+			prev = curr;
+			curr = curr->next;
+		}
+	}
+}
+
 char list::find(char in) {
 	node *temp = head;
 	char out = ' ';
@@ -52,7 +66,7 @@ std::string list::show() {
 	node *temp = head;
 	std::string out = "";
 	while(temp != NULL) {
-		out.append("%c%c",temp->data1,temp->data2);
+		out.append("%c%c;",temp->data1,temp->data2);
 		temp = temp->next;
 	}
 	return out;

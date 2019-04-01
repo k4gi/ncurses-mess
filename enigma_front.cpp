@@ -83,14 +83,15 @@ int main() {
 	int slot1 = 0;
 	int slot2 = 0;
 	int slot3 = 0;
-	std::string plug = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //is there a better way to store this one?
+	//std::string plug = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //is there a better way to store this one?
+	list plug;
 	std::string input = ""; //the fabled secret message
 	//navigation variables
 	char in='q';
 	char in2=' '; //oh my i need a second input for the plugboard
 	int sel=0;
 	int sel2=0;
-	//uhh also a 'keyboard' string for showing what's changed with the plugboard
+	//uhh also a 'keyboard' string for checking plugboard input
 	std::string keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	//main menu loop
 	do {
@@ -226,12 +227,7 @@ int main() {
 				mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
 				mvwprintw(helpwin,3,1,"Press Enter when you're done");
 				mvwprintw(plugwin,1,1,"Plugs:");
-				//for(int i=0;i<keyboard.length();i++) {
-				//	if(keyboard[i] != plug[i]) {
-				//		wprintw(plugwin,"%c<->%c ",keyboard[i],plug[i]);
-				//	}
-				//}
-				//the above loop was going to show plugboard changes but you know what i'm going to use a linked list instead of an array! per ned's suggestion, so i'll need a different loop
+				mvwprintw(plugwin,2,1,plug.show().c_str());
 				wrefresh(plugwin);
 				in = toupper(wgetch(helpwin));
 				if(keyboard.find(in) != std::string::npos) { //if found
@@ -241,9 +237,10 @@ int main() {
 						mvwprintw(helpwin,1,1,"You entered %c, time for that second letter",in);
 						in2 = toupper(wgetch(helpwin));
 					} while(keyboard.find(in2) == std::string::npos);
-					//todo: string manipulation..yay...make those changes to the plugboard
-					//do we need any error checking here?
-
+					//time to alter the list
+					if(plug.find(in) != ' ') plug.remove(in);
+					if(plug.find(in2) != ' ') plug.remove(in2);
+					if(in != in2) plug.add(in,in2);
 				}
 			} while(in != '\n');
 			//clearWindow(plugwin);
