@@ -16,7 +16,6 @@ public:
 	void remove(char in1,char in2);
 	char find(char in);
 	std::string show();
-	node *getHead();
 };
 
 #endif
