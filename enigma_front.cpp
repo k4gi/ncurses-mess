@@ -238,8 +238,8 @@ int main() {
 						in2 = toupper(wgetch(helpwin));
 					} while(keyboard.find(in2) == std::string::npos);
 					//time to alter the list
-					if(plug.find(in) != ' ') plug.remove(in);
-					if(plug.find(in2) != ' ') plug.remove(in2);
+					plug.remove(in);
+					plug.remove(in2);
 					if(in != in2) plug.add(in,in2);
 				}
 			} while(in != '\n');

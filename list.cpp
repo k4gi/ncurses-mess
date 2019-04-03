@@ -18,29 +18,45 @@ void list::add(char in1,char in2) {
 }
 
 void list::remove(char in1,char in2) {
-	node *prev;
-	node *curr = head;
-	while(curr != NULL) {
-		if( (curr->data1 == in1 && curr->data2 == in2) || (curr->data1 == in2 && curr->data2 == in1) ) {
-			prev->next = curr->next;
-			curr = NULL;
+	if(head != NULL) {
+		if( (head->data1 == in1 && head->data2 == in2) || (head->data1 == in2 && head->data2 == in1) ) {
+			free(head);
+			head = NULL;
 		} else {
-			prev = curr;
-			curr = curr->next;
+			node *prev = head;
+			node *curr = head->next;
+			while(curr != NULL) {
+				if( (curr->data1 == in1 && curr->data2 == in2) || (curr->data1 == in2 && curr->data2 == in1) ) {
+					prev->next = curr->next;
+					free(curr);
+					curr = NULL;
+				} else {
+					prev = curr;
+					curr = curr->next;
+				}	
+			}
 		}
 	}
 }
 
 void list::remove(char in) {
-	node *prev;
-	node *curr = head;
-	while(curr != NULL) {
-		if( curr->data1 == in || curr->data2 == in ) {
-			prev->next = curr->next;
-			curr = NULL;
+	if(head != NULL) {
+		if( head->data1 == in || head->data2 == in ) {
+			free(head);
+			head = NULL;
 		} else {
-			prev = curr;
-			curr = curr->next;
+			node *prev = head;
+			node *curr = head->next;
+			while(curr != NULL) {
+				if( head->data1 == in || head->data2 == in ) {
+					prev->next = curr->next;
+					free(curr);
+					curr = NULL;
+				} else {
+					prev = curr;
+					curr = curr->next;
+				}	
+			}
 		}
 	}
 }
@@ -66,7 +82,9 @@ std::string list::show() {
 	node *temp = head;
 	std::string out = "";
 	while(temp != NULL) {
-		out.append("%c%c;",temp->data1,temp->data2);
+		out.append(1,temp->data1);
+		out.append(1,temp->data2);
+		out.append(1,';');
 		temp = temp->next;
 	}
 	return out;

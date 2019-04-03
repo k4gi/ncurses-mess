@@ -12,5 +12,7 @@ input:
 	g++ input.cpp -lncurses -o input
 enigma:
 	g++ list.cpp enigma_front.cpp -lncurses -o enigma
+listest:
+	g++ list.cpp listest.cpp -lncurses -o listest
 clean:
 	rm walk info hello two window input enigma
