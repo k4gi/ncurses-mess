@@ -84,7 +84,7 @@ int main() {
 	int slot2 = 0;
 	int slot3 = 0;
 	//std::string plug = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //is there a better way to store this one?
-	list plug;
+	list plug; //yes there is
 	std::string input = ""; //the fabled secret message
 	//navigation variables
 	char in='q';
@@ -115,6 +115,7 @@ int main() {
 			mvwprintw(helpwin,2,1,"Press Enter to encode, any other key to exit");
 			wrefresh(helpwin);
 			if(wgetch(helpwin) == '\n') {
+				//so yeah this doesn't do any encoding yet
 				mvwprintw(outwin,1,1,input.c_str());
 			}
 			wrefresh(outwin);
@@ -211,6 +212,10 @@ int main() {
 			sel = 0;
 			clearWindow(slotwin);
 			//put code here to show what settings were actually made, for reference
+			mvwprintw(slotwin,1,1,"%s: %s",slotoptions[0].c_str(),refoptions[ref].c_str());
+			mvwprintw(slotwin,2,1,"%s: %s",slotoptions[1].c_str(),wheeloptions[slot1].c_str());
+			mvwprintw(slotwin,3,1,"%s: %s",slotoptions[2].c_str(),wheeloptions[slot2].c_str());
+			mvwprintw(slotwin,4,1,"%s: %s",slotoptions[3].c_str(),wheeloptions[slot3].c_str());
 			wrefresh(slotwin);
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Slot settings done!");
@@ -227,7 +232,7 @@ int main() {
 				mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
 				mvwprintw(helpwin,3,1,"Press Enter when you're done");
 				mvwprintw(plugwin,1,1,"Plugs:");
-				mvwprintw(plugwin,2,1,plug.show().c_str());
+				mvwprintw(plugwin,2,1,plug.show().c_str()); //like magic
 				wrefresh(plugwin);
 				in = toupper(wgetch(helpwin));
 				if(keyboard.find(in) != std::string::npos) { //if found

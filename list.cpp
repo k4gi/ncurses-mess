@@ -17,48 +17,25 @@ void list::add(char in1,char in2) {
 	}
 }
 
-void list::remove(char in1,char in2) {
-	if(head != NULL) {
-		if( (head->data1 == in1 && head->data2 == in2) || (head->data1 == in2 && head->data2 == in1) ) {
-			free(head);
-			head = NULL;
-		} else {
-			node *prev = head;
-			node *curr = head->next;
-			while(curr != NULL) {
-				if( (curr->data1 == in1 && curr->data2 == in2) || (curr->data1 == in2 && curr->data2 == in1) ) {
-					prev->next = curr->next;
-					free(curr);
-					curr = NULL;
-				} else {
-					prev = curr;
-					curr = curr->next;
-				}	
-			}
-		}
-	}
-}
-
 void list::remove(char in) {
-	if(head != NULL) {
-		if( head->data1 == in || head->data2 == in ) {
-			free(head);
-			head = NULL;
+	node *curr = head;
+	node *prev;
+	while( curr != NULL && (curr->data1 == in || curr->data2 == in) ) {
+		prev = curr;
+		head = curr = curr->next;
+		free(prev);
+	}
+	while( curr != NULL ) {
+		if( curr->data1 == in || curr->data2 == in ) {
+			prev->next = curr->next;
+			free(curr);
+			curr = prev->next;
 		} else {
-			node *prev = head;
-			node *curr = head->next;
-			while(curr != NULL) {
-				if( head->data1 == in || head->data2 == in ) {
-					prev->next = curr->next;
-					free(curr);
-					curr = NULL;
-				} else {
-					prev = curr;
-					curr = curr->next;
-				}	
-			}
+			prev = curr;
+			curr = curr->next;
 		}
 	}
+
 }
 
 char list::find(char in) {
