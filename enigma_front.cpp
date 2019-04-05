@@ -79,10 +79,15 @@ int main() {
 	std::string wheeloptions[] = {"Wheel I","Wheel II","Wheel III","Wheel IV","Wheel V","Wheel VI","Wheel VII","Wheel VIII"};
 	int wheelsize = 8;
 	//save the settings we're making
+	//also an array would be good for this stuff but...its mostly done now
 	int ref = 0;
 	int slot1 = 0;
 	int slot2 = 0;
 	int slot3 = 0;
+	//lmao i totally forgot about wheel settings
+	char set1 = 'A';
+	char set2 = 'A';
+	char set3 = 'A';
 	//std::string plug = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //is there a better way to store this one?
 	list plug; //yes there is
 	std::string input = ""; //the fabled secret message
@@ -113,7 +118,6 @@ int main() {
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Selected: Output");
 			mvwprintw(helpwin,2,1,"Press Enter to encode, any other key to exit");
-			wrefresh(helpwin);
 			if(wgetch(helpwin) == '\n') {
 				//so yeah this doesn't do any encoding yet
 				mvwprintw(outwin,1,1,input.c_str());
@@ -125,7 +129,7 @@ int main() {
 		case '3':
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Selected: Slot settings");
-			mvwprintw(helpwin,3,1,"Navigate submenu with 'hjkl', press 'd' when you're done");
+			mvwprintw(helpwin,3,1,"Navigate submenu with 'j' for up, 'k' for down, 'l' to select, press 'Enter' when you're done");
 			wrefresh(helpwin);
 			do {
 				clearWindow(slotwin);
@@ -160,13 +164,13 @@ int main() {
 							case 'j':
 								if(sel2<refsize-1) sel2++;
 								break;
-							case 'h':
+							case 'l':
 								ref=sel2;
 								clearLine(helpwin,2);
 								mvwprintw(helpwin,2,1,"You have selected %s",refoptions[ref].c_str());
 								break;
 							}
-						} while(in != 'h');
+						} while(in != 'l');
 					} else { //wheel time
 						do {
 							for(int i=0;i<wheelsize;i++) {
@@ -183,39 +187,66 @@ int main() {
 							case 'j':
 								if(sel2<wheelsize-1) sel2++;
 								break;
-							case 'h':
+							case 'l':
 								switch(sel) {
 								case 1:
 									slot1=sel2;
 									clearLine(helpwin,2);
 									mvwprintw(helpwin,2,1,"You have selected %s for Slot I",wheeloptions[slot1].c_str());
+									//wheel setting
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"Lastly, press a letter for %s to be set to",wheeloptions[slot1].c_str());
+									do {
+										in2 = toupper(wgetch(helpwin));
+									} while(keyboard.find(in2) == std::string::npos);
+									set1 = in2;
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"%s has been set to %c",wheeloptions[slot1].c_str(),set1);
 									break;
 								case 2:
 									slot2=sel2;
 									clearLine(helpwin,2);
 									mvwprintw(helpwin,2,1,"You have selected %s for Slot II",wheeloptions[slot2].c_str());
+									//wheel setting
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"Lastly, press a letter for %s to be set to",wheeloptions[slot2].c_str());
+									do {
+										in2 = toupper(wgetch(helpwin));
+									} while(keyboard.find(in2) == std::string::npos);
+									set2 = in2;
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"%s has been set to %c",wheeloptions[slot2].c_str(),set2);
 									break;
 								case 3:
 									slot3=sel2;
 									clearLine(helpwin,2);
 									mvwprintw(helpwin,2,1,"You have selected %s for Slot III",wheeloptions[slot3].c_str());
+									//wheel setting
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"Lastly, press a letter for %s to be set to",wheeloptions[slot3].c_str());
+									do {
+										in2 = toupper(wgetch(helpwin));
+									} while(keyboard.find(in2) == std::string::npos);
+									set3 = in2;
+									clearLine(helpwin,3);
+									mvwprintw(helpwin,3,1,"%s has been set to %c",wheeloptions[slot3].c_str(),set3);
 									break;
 								}
 								break;
 							}
-						} while(in != 'h');
+						} while(in != 'l');
 					}
 					sel2=0;
 					break;
 				}
-			} while(in != 'd');
+			} while(in != '\n');
 			sel = 0;
 			clearWindow(slotwin);
 			//put code here to show what settings were actually made, for reference
 			mvwprintw(slotwin,1,1,"%s: %s",slotoptions[0].c_str(),refoptions[ref].c_str());
-			mvwprintw(slotwin,2,1,"%s: %s",slotoptions[1].c_str(),wheeloptions[slot1].c_str());
-			mvwprintw(slotwin,3,1,"%s: %s",slotoptions[2].c_str(),wheeloptions[slot2].c_str());
-			mvwprintw(slotwin,4,1,"%s: %s",slotoptions[3].c_str(),wheeloptions[slot3].c_str());
+			mvwprintw(slotwin,2,1,"%s: %s at %c",slotoptions[1].c_str(),wheeloptions[slot1].c_str(),set1);
+			mvwprintw(slotwin,3,1,"%s: %s at %c",slotoptions[2].c_str(),wheeloptions[slot2].c_str(),set2);
+			mvwprintw(slotwin,4,1,"%s: %s at %c",slotoptions[3].c_str(),wheeloptions[slot3].c_str(),set3);
 			wrefresh(slotwin);
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Slot settings done!");
