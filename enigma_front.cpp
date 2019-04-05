@@ -98,6 +98,7 @@ int main() {
 	int sel2=0;
 	//uhh also a 'keyboard' string for checking plugboard input
 	std::string keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	
 	//main menu loop
 	do {
 		in = wgetch(helpwin);
@@ -252,10 +253,6 @@ int main() {
 			mvwprintw(helpwin,1,1,"Slot settings done!");
 			break;
 		case '4':
-			clearWindow(helpwin);
-			mvwprintw(helpwin,1,1,"Selected: Plugboard settings");
-			mvwprintw(helpwin,2,1,"Press a letter, then another letter, and they get connected");
-			mvwprintw(helpwin,3,1,"Press Enter when you're done");
 			do {
 				clearWindow(plugwin);
 				clearWindow(helpwin);
@@ -279,9 +276,6 @@ int main() {
 					if(in != in2) plug.add(in,in2);
 				}
 			} while(in != '\n');
-			//clearWindow(plugwin);
-			////code here to show what settings were made, again
-			//wrefresh(plugwin);
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Plugboard settings done!");
 			break;
@@ -298,7 +292,6 @@ int main() {
 		}
 	} while(in != 'q');
 
-	//wgetch(inwin); //temp. wait here
 	endwin(); //stop ncurses
 	return 0;
 }
