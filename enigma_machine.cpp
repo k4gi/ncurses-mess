@@ -44,7 +44,13 @@ void enigma_machine::set_plugboard(std::string plug) {
 	plugboard = plug;
 }
 
-char enigma_machine::encode_char(int slot, boolean reverse, char in) {
+bool enigma_machine::notch_active(int slot) {
+	if(working_wheels[slot][2].find(working_wheels[slot][0][0]) != std::string::npos) {
+		return true;
+	} else return false;
+}
+
+char enigma_machine::encode_char(int slot, bool reverse, char in) {
 	char out = working_wheels[slot][0][keyboard.find(in)];
 	if(!reverse) {
 		char = working_wheels[slot][1][working_wheels[slot][0].find(out)];
@@ -57,6 +63,50 @@ char enigma_machine::encode_char(int slot, boolean reverse, char in) {
 
 std::string enigma_machine::encode(std::string in) {
 	if(working_wheels != NULL && working_reflector != NULL) {
+		
+		in = toupper(in);
+		std::string out = "";
+		
+		for(int i = 0;i<in.length();i++) {
+			//keypress
+			char out_char = in[i];
+
+			if(keyboard.find(out_char) == std::string::npos) { //catch non-letters
+				continue;
+			}
+
+			//rotation
+			rotate(2);
+			if(notch_active(2)) {
+				rotate(1);
+				if(notch_active(1)) {
+					rotate(0);
+				}
+			}
+
+			//plugboard
+			out_char = plugboard[keyboard.find(out_char)];
+
+			//forward (left) encoding
+			for(int j=2;j>-1;j--) {
+				out_char = encode_char(j,false,out_char);
+			}
+
+			//reflector
+			out_char = working_reflector[keyboard.find(out_char)];
+
+			//reverse (right) encoding
+			for(int j=0;j<3;j++) {
+				out_char = encode_char(j,true,out_char);
+			}
+
+			//plugboard
+			out_char = plugboard[keyboard.find(out_char)];
+
+			//save
+			out.append(1,out_char);
+		}
+		return out;
 	} else {
 		return "ERROR: machine not set up";
 	}
