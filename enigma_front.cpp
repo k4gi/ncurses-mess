@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <string>
 #include "list.h"
+#include "enigma_machine.h"
 
 void clearWindow(WINDOW *win) {
 	int y,x;
@@ -90,6 +91,7 @@ int main() {
 	char set3 = 'A';
 	//std::string plug = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //is there a better way to store this one?
 	list plug; //yes there is
+	std::string plug_out; //turns out I need this here anyway tho
 	std::string input = ""; //the fabled secret message
 	//navigation variables
 	char in='q';
@@ -98,6 +100,9 @@ int main() {
 	int sel2=0;
 	//uhh also a 'keyboard' string for checking plugboard input
 	std::string keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	//finally, THE mACHINE
+	enigma_machine machine;
 	
 	//main menu loop
 	do {
@@ -120,8 +125,24 @@ int main() {
 			mvwprintw(helpwin,1,1,"Selected: Output");
 			mvwprintw(helpwin,2,1,"Press Enter to encode, any other key to exit");
 			if(wgetch(helpwin) == '\n') {
-				//so yeah this doesn't do any encoding yet
-				mvwprintw(outwin,1,1,input.c_str());
+				//its encoding time
+				//apply settings to enigma machine
+				machine.set_reflector(ref);
+				machine.set_wheel(0,slot1,keyboard.find(set1));
+				machine.set_wheel(1,slot2,keyboard.find(set2));
+				machine.set_wheel(2,slot3,keyboard.find(set3));
+				plug_out = keyboard;
+				//aaaaaaaaa how do this
+				//i thought of a horribly inefficient way that'll do
+				for(int i=0;i<keyboard.length();i++) {
+					if(plug.find(keyboard[i]) != ' ') {
+						plug_out[i] = plug.find(keyboard[i]);
+						plug_out[keyboard.find(plug.find(keyboard[i]))] = keyboard[i];
+					}
+				}
+				machine.set_plugboard(plug_out);
+				//encoding
+				mvwprintw(outwin,1,1,machine.encode(input).c_str());
 			}
 			wrefresh(outwin);
 			clearWindow(helpwin);
@@ -130,7 +151,7 @@ int main() {
 		case '3':
 			clearWindow(helpwin);
 			mvwprintw(helpwin,1,1,"Selected: Slot settings");
-			mvwprintw(helpwin,3,1,"Navigate submenu with 'j' for up, 'k' for down, 'l' to select, press 'Enter' when you're done");
+			mvwprintw(helpwin,3,1,"Navigate submenu with 'j' for down, 'k' for up, 'l' to select, press 'Enter' when you're done");
 			wrefresh(helpwin);
 			do {
 				clearWindow(slotwin);

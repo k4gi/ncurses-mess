@@ -11,7 +11,7 @@ window:
 input:
 	g++ input.cpp -lncurses -o input
 enigma:
-	g++ list.cpp enigma_front.cpp -lncurses -o enigma
+	g++ list.cpp enigma_machine.cpp enigma_front.cpp -lncurses -o enigma
 listest:
 	g++ list.cpp listest.cpp -lncurses -o listest
 enigmatest:
