@@ -1,25 +1,6 @@
 #include "enigma_machine.h"
 
 enigma_machine::enigma_machine() {
-	wheels = {
-		{"EKMFLGDQVZNTOWYHXUSPAIBRCJ", "R"},
-		{"AJDKSIRUXBLHWTMCQGZNPYFVOE", "F"},
-		{"BDFHJLCPRTXVZNYEIWGAKMUSQO", "W"},
-		{"ESOVPZJAYQUIRHXLNFTGKDCMWB", "K"},
-		{"VZBRGITYUPSDNHLXAWMJQOFECK", "A"},
-		{"JPGVOUMFYQBENHZRDKASXLICTW", "AN"},
-		{"NZJHGRCXMYSWBOUFAIVLPEKQDT", "AN"},
-		{"FKQHTLXOCBJSPDZRAMEWNIUYGV", "AN"}
-	};
-	reflectors = {
-		"EJMZALYXVBWFCRQUONTSPIKHGD",
-		"YRUHQSLDPXNGOKMIEBFZCWVJAT",
-		"FVPJIAOYEDRZXWGCTKUQSBNMHL"
-	};
-	keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	plugboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	working_wheels = NULL;
-	working_reflector = NULL;
 }
 
 void enigma_machine::set_wheel(int slot, int wheel, int set) {
@@ -53,18 +34,23 @@ bool enigma_machine::notch_active(int slot) {
 char enigma_machine::encode_char(int slot, bool reverse, char in) {
 	char out = working_wheels[slot][0][keyboard.find(in)];
 	if(!reverse) {
-		char = working_wheels[slot][1][working_wheels[slot][0].find(out)];
+		out = working_wheels[slot][1][working_wheels[slot][0].find(out)];
 	} else {
-		char = working_wheels[slot][0][working_wheels[slot][1].find(out)];
+		out = working_wheels[slot][0][working_wheels[slot][1].find(out)];
 	}
 	out = keyboard[working_wheels[slot][0].find(out)];
 	return out;
 }
 
 std::string enigma_machine::encode(std::string in) {
-	if(working_wheels != NULL && working_reflector != NULL) {
+	if(working_wheels[0][0] != "" && working_wheels[0][1] != "" && working_wheels[0][2] != "" &&
+	working_wheels[1][0] != "" && working_wheels[1][1] != "" && working_wheels[1][2] != "" &&
+	working_wheels[2][0] != "" && working_wheels[2][1] != "" && working_wheels[2][2] != "" &&
+	working_reflector != "") {
 		
-		in = toupper(in);
+		for(int i=0;i<in.length();i++) {
+			in[i] = toupper(in[i]);
+		}
 		std::string out = "";
 		
 		for(int i = 0;i<in.length();i++) {
