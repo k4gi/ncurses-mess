@@ -16,5 +16,9 @@ listest:
 	g++ list.cpp listest.cpp -lncurses -o listest
 enigmatest:
 	g++ enigma_machine.cpp enigmatest.cpp -o enigmatest
+map:
+	g++ map.cpp -lncurses -o map
+cave:
+	g++ Character.cpp cave.cpp -lncurses -o cave
 clean:
 	rm walk info hello two window input enigma
