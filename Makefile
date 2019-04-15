@@ -20,5 +20,5 @@ map:
 	g++ map.cpp -lncurses -o map
 cave:
 	g++ Character.cpp cave.cpp -lncurses -o cave
-clean:
-	rm walk info hello two window input enigma
+pyramid:
+	g++ pyramid.cpp -lncurses -o pyramid
