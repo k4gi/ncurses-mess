@@ -42,22 +42,52 @@ void spawn_character(WINDOW *win, char sym, Character out) {
 	}
 }
 
+void draw_preset(WINDOW *win) {
+	int y,x;
+	getmaxyx(win,y,x);
+	if(x>=30 && y>=19) {
+		// measures        .0   .5   .10  .15  .20  .25  .30
+		mvwprintw(win, 0,0,"==============================");
+		mvwprintw(win, 1,0,"|..|.....|.........|.........|");
+		mvwprintw(win, 2,0,"|..|.....|.........|.........|");
+		mvwprintw(win, 3,0,"|..|..|..|====.====|.........|");
+		mvwprintw(win, 4,0,"|.....|..|.........|======...|");
+		mvwprintw(win, 5,0,"|.....|..|.======.=|.....|...|");
+		mvwprintw(win, 6,0,"|===..|..|.|.......|.....|...|");
+		mvwprintw(win, 7,0,"|..|..|..|.|.......|.....|...|");
+		mvwprintw(win, 8,0,"|.....|....|.............|...|");
+		mvwprintw(win, 9,0,"|..|..|....|.......|.....|...|");
+		mvwprintw(win,10,0,"|===..|====|.......|.....|...|");
+		mvwprintw(win,11,0,"|.....|....========|.....|...|");
+		mvwprintw(win,12,0,"|.....|............|======...|");
+		mvwprintw(win,13,0,"|..|..|............|.....|...|");
+		mvwprintw(win,14,0,"|..|..|............|.....|...|");
+		mvwprintw(win,15,0,"|..|..==============..|..|...|");
+		mvwprintw(win,16,0,"|..|..................|......|");
+		mvwprintw(win,17,0,"|..|..................|......|");
+		mvwprintw(win,18,0,"|..==========================|");
+		mvwprintw(win,19,0,"====                         =");
+	}
+}
+
 void cave() {
 	int y,x;
 	getmaxyx(stdscr,y,x);
 	WINDOW *mainwin = newwin(y-10,x-10,5,5);
 	box(mainwin,0,0);
 
-	draw_room(mainwin,5,5,5,5);
-	draw_room(mainwin,7,10,7,18);
-	draw_corridor(mainwin,false,10,7,9);
+	//draw_room(mainwin,5,5,5,5);
+	//draw_room(mainwin,7,10,7,18);
+	//draw_corridor(mainwin,false,10,7,9);
+	
+	draw_preset(mainwin);
 
 	wrefresh(mainwin);
 
-	Character hamster = Character('@',6,6);
+	Character hamster = Character('@',1,1);
 	mvwaddch(mainwin,hamster.row(),hamster.col(),hamster.symbol());
 
-	Character goblin = Character('g',10,19);
+	Character goblin = Character('g',3,25);
 	mvwaddch(mainwin,goblin.row(),goblin.col(),goblin.symbol());
 
 	srand(255);
@@ -126,6 +156,7 @@ void cave() {
 		}
 		mvwaddch(mainwin,hamster.row(),hamster.col(),hamster.symbol());
 
+		
 		//goblin movement
 		switch(rand()%10) {
 		case 2:	
@@ -158,6 +189,7 @@ void cave() {
 			break;
 		}
 		mvwaddch(mainwin,goblin.row(),goblin.col(),goblin.symbol());
+
 	} while(in != 'q');
 }
 
