@@ -22,3 +22,5 @@ cave:
 	g++ Character.cpp cave.cpp -lncurses -o cave
 pyramid:
 	g++ pyramid.cpp -lncurses -o pyramid
+snake:
+	g++ snake.cpp snake_game.cpp -lncurses -o snake -g
