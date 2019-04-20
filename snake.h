@@ -15,12 +15,14 @@ class snake {
 	char head_symbols[4] = {'^','>','v','<'}; //imaginitive names here
 
 	void shunt(WINDOW *win);
+	void shunt_step(WINDOW *win, segment *prev);
 	void add_body(WINDOW *win);
 public:
 	snake(int y,int x,int dir);
 	void place(WINDOW *win); //just draw the snake where it is
 	void move(WINDOW *win, int dir);
 	void grow(WINDOW *win, int dir);
+	void print(WINDOW *win);
 	void delete_snake();
 };
 

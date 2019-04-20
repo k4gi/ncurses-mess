@@ -2,17 +2,22 @@
 
 
 void snake::shunt(WINDOW *win) { //every snake segment moves forward (except the head)
-	segment *prev = head;
-	segment *curr = head->next;
+	//due to being dumb this puts every segment in the same position :)
+	//if I make this function recursive i can get the changes to happen at the tail end first??
+	//maybe it would be easier to make the snake double-linked though
+	//recursion it is
+	
+	shunt_step(win,head);
+}
 
-	while(curr != NULL) {
+void snake::shunt_step(WINDOW *win, segment *prev) {
+	segment *curr = prev->next;
+	if(curr != NULL) {
+		shunt_step(win,curr); //recursion!!
 		if(curr->next == NULL) mvwaddch(win,curr->ypos,curr->xpos,symbols[0]); //vacate
 		curr->ypos = prev->ypos;
 		curr->xpos = prev->xpos;
 		mvwaddch(win,curr->ypos,curr->xpos,symbols[curr->id]); //redraw
-
-		prev = curr;
-		curr = curr->next;
 	}
 }
 
@@ -81,25 +86,25 @@ void snake::move(WINDOW *win, int dir) {
 	getmaxyx(stdscr,y,x);
 	switch(dir) {
 	case 0: //north
-		if(head->ypos > 0) {
+		if(head->ypos > 0 && mvwinch(win,head->ypos -1,head->xpos) != '#') {
 			shunt(win);
 			head->ypos --;
 		}
 		break;
 	case 1: //east
-		if(head->xpos < x-1) {
+		if(head->xpos < x-1 && mvwinch(win,head->ypos,head->xpos +1) != '#') {
 			shunt(win);
 			head->xpos ++;
 		}
 		break;
 	case 2: //south
-		if(head->ypos < y-1) {
+		if(head->ypos < y-1 && mvwinch(win,head->ypos +1,head->xpos) != '#') {
 			shunt(win);
 			head->ypos ++;
 		}
 		break;
 	case 3: //west
-		if(head->xpos > 0) {
+		if(head->xpos > 0 && mvwinch(win,head->ypos,head->xpos -1) != '#') {
 			shunt(win);
 			head->xpos --;
 		}
@@ -115,31 +120,39 @@ void snake::grow(WINDOW *win, int dir) {
 	getmaxyx(stdscr,y,x);
 	switch(dir) {
 	case 0: //north
-		if(head->ypos > 0) {
+		if(head->ypos > 0 && mvwinch(win,head->ypos -1,head->xpos) != '#') {
 			add_body(win);
 			head->ypos --;
 		}
 		break;
 	case 1: //east
-		if(head->xpos < x-1) {
+		if(head->xpos < x-1 && mvwinch(win,head->ypos,head->xpos +1) != '#') {
 			add_body(win);
 			head->xpos ++;
 		}
 		break;
 	case 2: //south
-		if(head->ypos < y-1) {
+		if(head->ypos < y-1 && mvwinch(win,head->ypos +1,head->xpos) != '#') {
 			add_body(win);
 			head->ypos ++;
 		}
 		break;
 	case 3: //west
-		if(head->xpos > 0) {
+		if(head->xpos > 0 && mvwinch(win,head->ypos,head->xpos -1) != '#') {
 			add_body(win);
 			head->xpos --;
 		}
 		break;
 	}
 	mvwaddch(win,head->ypos,head->xpos,head_symbols[dir]);
+}
+
+void snake::print(WINDOW *win) { //debug
+	int iterations = 0;
+	for(segment *curr = head; curr != NULL; curr = curr->next) {
+		mvwprintw(win, iterations, 0, "%d %c y%d x%d", iterations, symbols[curr->id], curr->ypos, curr->xpos);
+		iterations ++;
+	}
 }
 
 void snake::delete_snake() { //free all the memory, only run at the end pls

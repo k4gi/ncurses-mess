@@ -21,7 +21,9 @@ void snake_game() {
 	do {
 		in = getch(); //delay here with timeout()
 
-		if(in == 'g') { //g for grow
+		if(in == 'p') { //print
+			garry.print(stdscr);
+		} else if(in == 'g') { //g for grow
 			garry.grow(stdscr,rand()%4);
 		} else {
 			garry.move(stdscr,rand()%4);
