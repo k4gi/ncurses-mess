@@ -147,6 +147,49 @@ void snake::grow(WINDOW *win, int dir) {
 	mvwaddch(win,head->ypos,head->xpos,head_symbols[dir]);
 }
 
+int snake::track(WINDOW *win, int ypos, int xpos) { //moving towards a target
+	/*
+		give the grow() and move() functions a return int on whether they actually moved,
+		and you can put some code in here for trying to move around a block
+		also maybe give this function a return int? for whether we found our target
+		so mr parent function knows to spawn another one
+	*/
+	int out = 1;
+
+	//lets just prioritise north/south
+	if(head->ypos > ypos) { //north
+		if(head->ypos -1 == ypos && head->xpos == xpos) { //target reached
+			grow(win,0);
+			out = 0;
+		} else {
+			move(win,0);
+		}
+	} else if(head->ypos < ypos) { //south
+		if(head->ypos +1 == ypos && head->xpos == xpos) {
+			grow(win,2);
+			out = 0;
+		} else {
+			move(win,2);
+		}
+	} else if(head->xpos > xpos) { //west
+		if(head->xpos -1 == xpos && head->ypos == ypos) {
+			grow(win,3);
+			out = 0;
+		} else {
+			move(win,3);
+		}
+	} else if(head->xpos < xpos) { //east
+		if(head->xpos +1 == xpos && head->ypos == ypos) {
+			grow(win,1);
+			out = 0;
+		} else {
+			move(win,1);
+		}
+	}
+	// else don't move i guess
+	return out;
+}
+
 void snake::print(WINDOW *win) { //debug
 	int iterations = 0;
 	for(segment *curr = head; curr != NULL; curr = curr->next) {

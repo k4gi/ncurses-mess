@@ -22,6 +22,7 @@ public:
 	void place(WINDOW *win); //just draw the snake where it is
 	void move(WINDOW *win, int dir);
 	void grow(WINDOW *win, int dir);
+	int track(WINDOW *win, int ypos, int xpos);
 	void print(WINDOW *win);
 	void delete_snake();
 };

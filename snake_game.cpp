@@ -16,6 +16,12 @@ void snake_game() {
 	srand(0);
 	char in;
 
+	//someting to aim for
+	int y_goal = rand()%y;
+	int x_goal = rand()%x;
+
+	mvaddch(y_goal,x_goal,'Q');
+
 	//initial position
 	garry.place(stdscr);
 	do {
@@ -26,7 +32,11 @@ void snake_game() {
 		} else if(in == 'g') { //g for grow
 			garry.grow(stdscr,rand()%4);
 		} else {
-			garry.move(stdscr,rand()%4);
+			if(garry.track(stdscr,y_goal,x_goal) == 0) { //spawn new target
+				y_goal = rand()%y;
+				x_goal = rand()%x;
+				mvaddch(y_goal,x_goal,'Q');
+			}
 		}
 	} while(in != 'q');
 
