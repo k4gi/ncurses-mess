@@ -22,6 +22,15 @@ void snake_game() {
 
 	mvaddch(y_goal,x_goal,'Q');
 
+	/* 2019-04-21 bugs to take note of
+		snake tracking can get stuck when trying to move north/south back on itself
+		also just normal loop collisions
+		new targets can spawn anywhere! including on the snake
+		i just saw one spawn right on the snake's head and it has no idea what to do it just froze
+		so to fix, make target spawning happen NOT on the snake
+		and give the snake some tools to try and move around itself (it might not always go well, maybe there's some kind of recursive solution to search ahead, and ahead, and ahead some more)
+	*/
+
 	//initial position
 	garry.place(stdscr);
 	do {
