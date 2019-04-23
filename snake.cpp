@@ -79,72 +79,82 @@ void snake::place(WINDOW *win) { //just draw the snake where it is
 	}
 }
 
-void snake::move(WINDOW *win, int dir) {
+int snake::move(WINDOW *win, int dir) {
 	//shunt snake forward
 	//then move head and draw
-	int y,x;
+	int y,x,out=1;
 	getmaxyx(stdscr,y,x);
 	switch(dir) {
 	case 0: //north
 		if(head->ypos > 0 && mvwinch(win,head->ypos -1,head->xpos) != '#') {
 			shunt(win);
 			head->ypos --;
+			out=0;
 		}
 		break;
 	case 1: //east
 		if(head->xpos < x-1 && mvwinch(win,head->ypos,head->xpos +1) != '#') {
 			shunt(win);
 			head->xpos ++;
+			out=0;
 		}
 		break;
 	case 2: //south
 		if(head->ypos < y-1 && mvwinch(win,head->ypos +1,head->xpos) != '#') {
 			shunt(win);
 			head->ypos ++;
+			out=0;
 		}
 		break;
 	case 3: //west
 		if(head->xpos > 0 && mvwinch(win,head->ypos,head->xpos -1) != '#') {
 			shunt(win);
 			head->xpos --;
+			out=0;
 		}
 		break;
 	}
 	mvwaddch(win,head->ypos,head->xpos,head_symbols[dir]);
+	return out;
 }
 
-void snake::grow(WINDOW *win, int dir) {
+int snake::grow(WINDOW *win, int dir) {
 	//do not shunt the snake
 	//instead add a new body piece right behind the head
-	int y,x;
+	int y,x,out=1;
 	getmaxyx(stdscr,y,x);
 	switch(dir) {
 	case 0: //north
 		if(head->ypos > 0 && mvwinch(win,head->ypos -1,head->xpos) != '#') {
 			add_body(win);
 			head->ypos --;
+			out=0;
 		}
 		break;
 	case 1: //east
 		if(head->xpos < x-1 && mvwinch(win,head->ypos,head->xpos +1) != '#') {
 			add_body(win);
 			head->xpos ++;
+			out=0;
 		}
 		break;
 	case 2: //south
 		if(head->ypos < y-1 && mvwinch(win,head->ypos +1,head->xpos) != '#') {
 			add_body(win);
 			head->ypos ++;
+			out=0;
 		}
 		break;
 	case 3: //west
 		if(head->xpos > 0 && mvwinch(win,head->ypos,head->xpos -1) != '#') {
 			add_body(win);
 			head->xpos --;
+			out=0;
 		}
 		break;
 	}
 	mvwaddch(win,head->ypos,head->xpos,head_symbols[dir]);
+	return out;
 }
 
 int snake::track(WINDOW *win, int ypos, int xpos) { //moving towards a target
@@ -209,4 +219,12 @@ void snake::delete_snake() { //free all the memory, only run at the end pls
 	}
 
 	delete curr;
+}
+
+int snake::getypos() {
+	return head->ypos;
+}
+
+int snake::getxpos() {
+	return head->xpos;
 }

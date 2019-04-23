@@ -33,21 +33,95 @@ void snake_game() {
 
 	//initial position
 	garry.place(stdscr);
-	do {
-		in = getch(); //delay here with timeout()
 
-		if(in == 'p') { //print
-			garry.print(stdscr);
-		} else if(in == 'g') { //g for grow
-			garry.grow(stdscr,rand()%4);
-		} else {
-			if(garry.track(stdscr,y_goal,x_goal) == 0) { //spawn new target
-				y_goal = rand()%y;
-				x_goal = rand()%x;
-				mvaddch(y_goal,x_goal,'Q');
+	//choose auto or manual play
+	mvprintw(0,0,"Press 'a' for auto, other for manual");
+	in = getch();
+	mvprintw(0,0,"                                    ");
+	timeout(100);
+
+	if(in == 'a') {
+		//autoplay loop
+		do {
+			in = getch(); //delay here with timeout()
+
+			if(in == 'p') { //print
+				garry.print(stdscr);
+			} else if(in == 'g') { //g for grow
+				garry.grow(stdscr,rand()%4);
+			} else {
+				if(garry.track(stdscr,y_goal,x_goal) == 0) { //spawn new target
+					y_goal = rand()%y;
+					x_goal = rand()%x;
+					mvaddch(y_goal,x_goal,'Q');
+				}
 			}
-		}
-	} while(in != 'q');
+		} while(in != 'q');
+	} else {
+		//manual loop
+		int set_dir = 1;
+		do {
+			in = getch();
+
+			switch(in) {
+			case 'w':
+				set_dir = 0;
+				break;
+			case 'd':
+				set_dir = 1;
+				break;
+			case 's':
+				set_dir = 2;
+				break;
+			case 'a':
+				set_dir = 3;
+				break;
+			}
+
+			switch(set_dir) {
+			case 0:
+				if(garry.getypos() -1 == y_goal && garry.getxpos() == x_goal) {
+					garry.grow(stdscr,0);
+					y_goal = rand()%y;
+					x_goal = rand()%x;
+					mvaddch(y_goal,x_goal,'Q');
+				} else {
+					garry.move(stdscr,0);
+				}
+				break;
+			case 1:
+				if(garry.getypos() == y_goal && garry.getxpos() +1 == x_goal) {
+					garry.grow(stdscr,1);
+					y_goal = rand()%y;
+					x_goal = rand()%x;
+					mvaddch(y_goal,x_goal,'Q');
+				} else {
+					garry.move(stdscr,1);
+				}
+				break;
+			case 2:
+				if(garry.getypos() +1 == y_goal && garry.getxpos() == x_goal) {
+					garry.grow(stdscr,2);
+					y_goal = rand()%y;
+					x_goal = rand()%x;
+					mvaddch(y_goal,x_goal,'Q');
+				} else {
+					garry.move(stdscr,2);
+				}
+				break;
+			case 3:
+				if(garry.getypos() == y_goal && garry.getxpos() -1 == x_goal) {
+					garry.grow(stdscr,3);
+					y_goal = rand()%y;
+					x_goal = rand()%x;
+					mvaddch(y_goal,x_goal,'Q');
+				} else {
+					garry.move(stdscr,3);
+				}
+				break;
+			}
+		} while(in != 'q');
+	}
 
 	//end
 	garry.delete_snake();
@@ -63,7 +137,7 @@ int main() {
 	noecho();
 	curs_set(0);
 	
-	timeout(100); //milliseconds of delay for getch();
+	//timeout(100); //milliseconds of delay for getch();
 	//wtimeout(stdscr,1000); //window version
 	
 	snake_game();
