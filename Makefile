@@ -24,3 +24,5 @@ pyramid:
 	g++ pyramid.cpp -lncurses -o pyramid
 snake:
 	g++ snake.cpp snake_game.cpp -lncurses -o snake -g
+sidescroll:
+	g++ sidescroll.cpp -lncurses -o sidescroll

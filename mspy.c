@@ -6,8 +6,8 @@ int main(void) {
 
 	initscr();
 	noecho();
-	keypad(stdscr,TRUE);
-	curs_set(2); //super cursor
+	keypad(stdscr,TRUE); //need this for mouse
+	curs_set(2); //super cursor?
 
 	mousemask(ALL_MOUSE_EVENTS,NULL);
 
