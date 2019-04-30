@@ -17,6 +17,8 @@ class snake {
 	void shunt(WINDOW *win);
 	void shunt_step(WINDOW *win, segment *prev);
 	void add_body(WINDOW *win);
+	int *find_corner();
+	int *find_next_corner(int y,int x);
 public:
 	snake(int y,int x,int dir);
 	void place(WINDOW *win); //just draw the snake where it is

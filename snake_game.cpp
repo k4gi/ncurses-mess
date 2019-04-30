@@ -50,7 +50,7 @@ void snake_game() {
 			} else if(in == 'g') { //g for grow
 				garry.grow(stdscr,rand()%4);
 			} else {
-				if(garry.track(stdscr,y_goal,x_goal) == 0) { //spawn new target
+				if(garry.track(stdscr,y_goal,x_goal) == 2) { //spawn new target
 					y_goal = rand()%y;
 					x_goal = rand()%x;
 					mvaddch(y_goal,x_goal,'Q');

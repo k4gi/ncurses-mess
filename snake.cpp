@@ -159,10 +159,9 @@ int snake::grow(WINDOW *win, int dir) {
 
 int snake::track(WINDOW *win, int ypos, int xpos) { //moving towards a target
 	/*
-		give the grow() and move() functions a return int on whether they actually moved,
-		and you can put some code in here for trying to move around a block
-		also maybe give this function a return int? for whether we found our target
-		so mr parent function knows to spawn another one
+		return: 0 for successful move
+			1 for failure
+			2 for finding target and growing
 	*/
 	int out = 1;
 
@@ -170,33 +169,78 @@ int snake::track(WINDOW *win, int ypos, int xpos) { //moving towards a target
 	if(head->ypos > ypos) { //north
 		if(head->ypos -1 == ypos && head->xpos == xpos) { //target reached
 			grow(win,0);
-			out = 0;
+			out = 2;
 		} else {
 			move(win,0);
+			out = 1;
 		}
 	} else if(head->ypos < ypos) { //south
 		if(head->ypos +1 == ypos && head->xpos == xpos) {
 			grow(win,2);
-			out = 0;
+			out = 2;
 		} else {
 			move(win,2);
+			out = 1;
 		}
 	} else if(head->xpos > xpos) { //west
 		if(head->xpos -1 == xpos && head->ypos == ypos) {
 			grow(win,3);
-			out = 0;
+			out = 2;
 		} else {
 			move(win,3);
+			out = 1;
 		}
 	} else if(head->xpos < xpos) { //east
 		if(head->xpos +1 == xpos && head->ypos == ypos) {
 			grow(win,1);
-			out = 0;
+			out = 2;
 		} else {
 			move(win,1);
+			out = 1;
 		}
 	}
-	// else don't move i guess
+	
+	//oh no i'm stuck i'd better try and find a way around myself
+	if(out == 1) {
+		//find the snake's corners to go around?
+		/*
+			a corner is a segment where
+			one of its neighbours has the same ypos and a different xpos
+			and the other has a different ypos and the same xpos
+		*/
+	}		
+		
+	return out;
+}
+
+int *snake::find_corner() {
+	segment *prev = head;
+	segment *curr = head->next;
+	int out[2] = {-1,-1};
+
+	while(curr->next != NULL) {
+		//searching
+	}
+	//i guess the end counts as a corner?
+	//idk whatever
+	return out;
+}
+
+int *snake::find_next_corner(int y,int x) {
+	segment *prev = head;
+	segment *curr = head->next;
+	int out[2] = {-1,-1};
+
+	while(curr->next != NULL && curr->ypos != y && curr->xpos != x) {
+		//skip through
+		prev = curr;
+		curr = curr->next;
+	}
+
+	while(curr->next != NULL) {
+		//searching
+	}
+
 	return out;
 }
 
