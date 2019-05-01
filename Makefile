@@ -26,5 +26,5 @@ snake:
 	g++ snake.cpp snake_game.cpp -lncurses -o snake -g
 sidescroll:
 	g++ sidescroll.cpp -lncurses -o sidescroll
-snakehelp:
-	g++ snake.cpp list.cpp snake_help.cpp -lncurses -o snakehelp
+testing:
+	g++ snake.cpp list.cpp testing.cpp -lncurses -o testing
