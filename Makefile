@@ -28,3 +28,5 @@ sidescroll:
 	g++ sidescroll.cpp -lncurses -o sidescroll
 snakehelp:
 	g++ snake.cpp list.cpp snake_help.cpp -lncurses -o snakehelp
+pad:
+	g++ pad.cpp -lncurses -o pad
