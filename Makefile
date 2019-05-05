@@ -30,3 +30,5 @@ pad:
 	g++ pad.cpp -lncurses -o pad
 testing:
 	g++ snake.cpp list.cpp testing.cpp -lncurses -o testing
+padscroll:
+	g++ padscroll.cpp -lncurses -o padscroll
