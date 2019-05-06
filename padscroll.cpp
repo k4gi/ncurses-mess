@@ -48,7 +48,7 @@ int main() {
 
 		switch(in) {
 		case 'w':
-			if(ypos>0) ypos --;
+			if(ypos>0 && c_ypos-ypos == y/2) ypos --;
 			if(mvwinch(map,c_ypos-1,c_xpos) != '#') {
 				mvwaddch(map,c_ypos,c_xpos,' ');
 				c_ypos --;
@@ -56,7 +56,7 @@ int main() {
 			}
 			break;
 		case 's':
-			if(ypos+y<pad_y) ypos ++;
+			if(ypos+y<pad_y && c_ypos-ypos == y/2) ypos ++;
 			if(mvwinch(map,c_ypos+1,c_xpos) != '#') {
 				mvwaddch(map,c_ypos,c_xpos,' ');
 				c_ypos ++;
@@ -64,7 +64,7 @@ int main() {
 			}
 			break;
 		case 'a':
-			if(xpos>0) xpos --;
+			if(xpos>0 && c_xpos-xpos == x/2) xpos --;
 			if(mvwinch(map,c_ypos,c_xpos-1) != '#') {
 				mvwaddch(map,c_ypos,c_xpos,' ');
 				c_xpos --;
@@ -72,7 +72,7 @@ int main() {
 			}
 			break;
 		case 'd':
-			if(xpos+x<pad_x) xpos ++;
+			if(xpos+x<pad_x && c_xpos-xpos == x/2) xpos ++;
 			if(mvwinch(map,c_ypos,c_xpos+1) != '#') {
 				mvwaddch(map,c_ypos,c_xpos,' ');
 				c_xpos ++;
