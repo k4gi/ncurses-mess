@@ -31,4 +31,4 @@ pad:
 testing:
 	g++ snake.cpp list.cpp testing.cpp -lncurses -o testing
 padscroll:
-	g++ padscroll.cpp -lncurses -o padscroll
+	g++ map_loader.cpp padscroll.cpp -lncurses -o padscroll
