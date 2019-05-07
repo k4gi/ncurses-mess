@@ -10,7 +10,7 @@ struct segment {
 };
 
 class snake {
-	segment *head;
+	segment *head = new segment;
 	char symbols[3] = {'.','#','/'}; //blank, body, tail
 	char head_symbols[4] = {'^','>','v','<'}; //imaginitive names here
 
