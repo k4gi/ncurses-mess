@@ -3,7 +3,7 @@
 
 #include "map_loader.h"
 
-#define FILENAME "basic_map.dat"
+#define FILENAME "generated_map.dat"
 
 int main() {
 	initscr();
@@ -16,39 +16,29 @@ int main() {
 
 	//int pad_y = y*1.5, pad_x = x*1.5;
 
-	int ypos = 0, xpos = 0;
-	int c_ypos = 1, c_xpos = 3;
+	int ypos = 0, xpos = 0; //top left corner of the visible map
+	int c_ypos = 1, c_xpos = 3; //position of the player
 
 	map_loader dan;
 
+
+	int log_width = 40, hp_height = 3; //size of the hud
+
+	int map_start_y = hp_height, map_start_x = 0, map_end_y = y-1, map_end_x = x-log_width-1; //start and end points for drawing the map
+
+	WINDOW *hp_win = newwin(hp_height,x-log_width,0,0);
+	WINDOW *log_win = newwin(y,log_width,0,x-log_width);
+
+	box(hp_win,0,0);
+	box(log_win,0,0);
+
 	WINDOW *map = dan.load_map(FILENAME);
-
-	/*
-	//fill pad pls
-	srand(0);
-	for(int i=0;i<pad_y;i++) {
-		for(int j=0;j<pad_x;j++) {
-			if(i==0 || j==0 || i==pad_y-1 || j==pad_x-1) { //border
-				mvwaddch(map,i,j,'#');
-			} else {
-				switch(rand()%10) {
-				case 0:
-				case 1:
-				case 2:
-					mvwaddch(map,i,j,'^');
-					break;
-				default:
-					mvwaddch(map,i,j,'.');
-					break;
-				}
-			}
-		}
-	}
-	*/
-
+	
 	mvwaddch(map,c_ypos,c_xpos,'@');
 	refresh();
-	prefresh(map,ypos,xpos,0,0,y-1,x-1);
+	wrefresh(hp_win);
+	wrefresh(log_win);
+	prefresh(map,ypos,xpos,map_start_y,map_start_x,map_end_y,map_end_x);
 	
 	//input loop
 	char in;
@@ -57,7 +47,7 @@ int main() {
 
 		switch(in) {
 		case 'w':
-			if(ypos>0 && c_ypos-ypos == y/2) ypos --;
+			if(ypos>0 && c_ypos-ypos+map_start_y == (map_end_y+1)/2) ypos --;
 			if(mvwinch(map,c_ypos-1,c_xpos) == '.') {
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_ypos --;
@@ -65,7 +55,7 @@ int main() {
 			}
 			break;
 		case 's':
-			if(ypos+y<dan.gety() && c_ypos-ypos == y/2) ypos ++;
+			if(ypos+(map_end_y+1) < dan.gety() && c_ypos-ypos+map_start_y == (map_end_y+1)/2) ypos ++;
 			if(mvwinch(map,c_ypos+1,c_xpos) == '.') {
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_ypos ++;
@@ -73,7 +63,7 @@ int main() {
 			}
 			break;
 		case 'a':
-			if(xpos>0 && c_xpos-xpos == x/2) xpos --;
+			if(xpos>0 && c_xpos-xpos+map_start_x == (map_end_x+1)/2) xpos --;
 			if(mvwinch(map,c_ypos,c_xpos-1) == '.') {
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_xpos --;
@@ -81,15 +71,15 @@ int main() {
 			}
 			break;
 		case 'd':
-			if(xpos+x<dan.getx() && c_xpos-xpos == x/2) xpos ++;
+			if(xpos+(map_end_x+1) < dan.getx() && c_xpos-xpos+map_start_x == (map_end_x+1)/2) xpos ++;
 			if(mvwinch(map,c_ypos,c_xpos+1) == '.') {
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_xpos ++;
 				mvwaddch(map,c_ypos,c_xpos,'@');
 			}
 			break;
-		}
-		prefresh(map,ypos,xpos,0,0,y-1,x-1);
+		}		
+		prefresh(map,ypos,xpos,map_start_y,map_start_x,map_end_y,map_end_x);
 		//mvderwin(view,ypos,xpos);
 		//wrefresh(view);
 	} while(in != 'q');
