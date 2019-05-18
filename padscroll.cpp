@@ -24,7 +24,7 @@ int main() {
 
 	int log_width = 40, hp_height = 3; //size of the hud
 
-	int map_start_y = hp_height, map_start_x = 0, map_end_y = y-1, map_end_x = x-log_width-1; //start and end points for drawing the map
+	int map_start_y = hp_height, map_start_x = 0, map_size_y = y-hp_height, map_size_x = x-log_width; //start and end points for drawing the map
 
 	WINDOW *hp_win = newwin(hp_height,x-log_width,0,0);
 	WINDOW *log_win = newwin(y,log_width,0,x-log_width);
@@ -38,7 +38,7 @@ int main() {
 	refresh();
 	wrefresh(hp_win);
 	wrefresh(log_win);
-	prefresh(map,ypos,xpos,map_start_y,map_start_x,map_end_y,map_end_x);
+	prefresh(map,ypos,xpos,map_start_y,map_start_x,map_start_y+map_size_y-1,map_start_x+map_size_x-1);
 	
 	//input loop
 	char in;
@@ -47,39 +47,39 @@ int main() {
 
 		switch(in) {
 		case 'w':
-			if(ypos>0 && c_ypos-ypos+map_start_y == (map_end_y+1)/2) ypos --;
 			if(mvwinch(map,c_ypos-1,c_xpos) == '.') {
+				if(ypos>0 && c_ypos-ypos+map_start_y == map_size_y/2) ypos --;
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_ypos --;
 				mvwaddch(map,c_ypos,c_xpos,'@');
 			}
 			break;
 		case 's':
-			if(ypos+(map_end_y+1) < dan.gety() && c_ypos-ypos+map_start_y == (map_end_y+1)/2) ypos ++;
 			if(mvwinch(map,c_ypos+1,c_xpos) == '.') {
+				if(ypos+map_size_y < dan.gety() && c_ypos-ypos+map_start_y == map_size_y/2) ypos ++;
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_ypos ++;
 				mvwaddch(map,c_ypos,c_xpos,'@');
 			}
 			break;
 		case 'a':
-			if(xpos>0 && c_xpos-xpos+map_start_x == (map_end_x+1)/2) xpos --;
 			if(mvwinch(map,c_ypos,c_xpos-1) == '.') {
+				if(xpos>0 && c_xpos-xpos+map_start_x == map_size_x/2) xpos --;
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_xpos --;
 				mvwaddch(map,c_ypos,c_xpos,'@');
 			}
 			break;
 		case 'd':
-			if(xpos+(map_end_x+1) < dan.getx() && c_xpos-xpos+map_start_x == (map_end_x+1)/2) xpos ++;
 			if(mvwinch(map,c_ypos,c_xpos+1) == '.') {
+				if(xpos+map_size_x < dan.getx() && c_xpos-xpos+map_start_x == map_size_x/2) xpos ++;
 				mvwaddch(map,c_ypos,c_xpos,'.');
 				c_xpos ++;
 				mvwaddch(map,c_ypos,c_xpos,'@');
 			}
 			break;
 		}		
-		prefresh(map,ypos,xpos,map_start_y,map_start_x,map_end_y,map_end_x);
+		prefresh(map,ypos,xpos,map_start_y,map_start_x,map_start_y+map_size_y-1,map_start_x+map_size_x-1);
 		//mvderwin(view,ypos,xpos);
 		//wrefresh(view);
 	} while(in != 'q');
