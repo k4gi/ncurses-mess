@@ -23,6 +23,7 @@ WINDOW *map_loader::load_map(std::string filename) {
 	}
 
 	map_pad = newpad(pad_y,pad_x);
+	//grid[pad_y][pad_x];
 
 	//printing
 	loader.open(filename,std::ios::in);
@@ -32,6 +33,7 @@ WINDOW *map_loader::load_map(std::string filename) {
 
 		while(std::getline(loader, input_line)) {
 			mvwprintw(map_pad,inc,0,input_line.c_str());
+			//grid[inc] = input_line.c_str();
 			inc ++;
 		}
 		loader.close();

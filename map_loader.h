@@ -8,6 +8,7 @@
 class map_loader {
 	int pad_y = 0; //number of lines
 	int pad_x = 0; //size of string
+	//char **grid;
 public:
 	WINDOW *load_map(std::string filename);
 	int getx();
