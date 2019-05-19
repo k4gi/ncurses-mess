@@ -8,6 +8,11 @@ WINDOW *map_loader::load_map(std::string filename) {
 		That's good, right?
 	*/
 	pad_y = pad_x = 0; //reset
+	if(grid != NULL) {
+		free(grid);
+		grid = NULL;
+	}
+
 	WINDOW *map_pad; //output 
 	std::ifstream loader; //file handler!
 	//measuring
@@ -39,6 +44,8 @@ WINDOW *map_loader::load_map(std::string filename) {
 		loader.close();
 	}
 
+	grid = dupwin(map_pad);
+
 	return map_pad;
 }
 
@@ -48,4 +55,8 @@ int map_loader::gety() {
 
 int map_loader::getx() {
 	return pad_x;
+}
+
+WINDOW *map_loader::getgrid() {
+	return grid;
 }
