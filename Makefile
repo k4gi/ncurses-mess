@@ -34,3 +34,5 @@ padscroll:
 	g++ map_loader.cpp padscroll.cpp -lncurses -o padscroll
 mapgen:
 	g++ mapgen.cpp -o mapgen
+conway:
+	g++ conway.cpp -lncurses -o conway

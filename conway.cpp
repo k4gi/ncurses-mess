@@ -1,31 +1,6 @@
 #include <ncurses.h>
 #include <cstdlib>
 
-int check_neighbours(int ysize, int xsize, int y, int x, bool g[][xsize]) {
-	int out = 0;
-	if(y > 0) {
-		if(g[y-1][x]) out ++;
-	}
-	if(y < ysize) {
-		if(g[y+1][x]) out ++;
-	}
-	if(x > 0) {
-		if(g[y][x-1]) out ++;
-	}
-	if(x < xsize) {
-		if(g[y][x+1]) out ++;
-	}
-	return out;
-}
-
-void populate(int ysize, int xsize, bool g[][xsize]) {
-	for( int i=0; i<ysize; i++ ) {
-		for( int j=0; j<xsize; j++ ) {
-			if(rand()%4 == 0) g[i][j] = true;
-		}
-	}
-}
-
 int main() {
 	initscr();
 	cbreak();
@@ -50,19 +25,59 @@ int main() {
 	do {
 		in = getch();
 
-		if( in == '\n' ) populate(y, x, grid);
+		if( in == '\n' ) {
+			for( int i=0; i<y; i++ ) {
+				for( int j=0; j<x; j++ ) {
+					if(rand()%4 == 0) grid[i][j] = true;
+				}
+			}
+		}
 
+		bool mark[y][x];
+
+		//mark
 		for( int i=0; i<y; i++ ) {
 			for( int j=0; j<x; j++ ) {
-				switch( check_neighbours( y, x, i, j, grid ) ) {
+				int neighbours = 0;
+				if(i > 0) {
+					if(grid[i-1][j]) neighbours ++;
+				}
+				if(i < y) {
+					if(grid[i+1][j]) neighbours ++;
+				}
+				if(j > 0) {
+					if(grid[i][j-1]) neighbours ++;
+				}
+				if(j < x) {
+					if(grid[i][j+1]) neighbours ++;
+				}
+
+				switch( neighbours ) {
 				case 0:
 				case 1:
 				case 4:
-					grid[i][j] = false;
+					mark[i][j] = false;
 					break;
 				case 3:
-					grid[i][j] = true;
+					mark[i][j] = true;
 					break;
+				case 2:
+					mark[i][j] = grid[i][j];
+					break;
+				}
+			}
+		}
+
+		//save
+		for( int i=0; i<y; i++ ) {
+			for( int j=0; j<x; j++ ) {
+				grid[i][j] = mark[i][j];
+
+				//print
+				if( grid[i][j] ) {
+					mvwaddch(stdscr,i,j,'#');
+				} else {
+					mvwaddch(stdscr,i,j,' ');
 				}
 			}
 		}
