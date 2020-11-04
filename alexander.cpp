@@ -71,7 +71,9 @@ int main() {
 
 	mvwaddstr(stdscr,0,0,"ALEX IS AWAKE . . .");
 
-	mvwaddstr( stdscr , 1 , 0 , std::to_string( time( &time_eye ) ).c_str() ); //good lord this is busy
+	time( &time_eye );
+	//lol i don't know what i'm doing
+	mvwaddstr( stdscr , 1 , 0 , ctime( mktime( localtime( &time_eye ) ) ) );
 
 	getch();
 	endwin(); //stop ncurses
